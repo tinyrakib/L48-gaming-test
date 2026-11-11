@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L48 Browser Test</title>
+<style type="text/css">
+body { font-family: Arial, sans-serif; background: #ffffff; color: #111111; margin: 8px; }
+h1 { font-size: 20px; }
+button { font-size: 16px; padding: 8px; margin: 3px; }
+#status { border: 1px solid #777; padding: 8px; }
+#board { border: 1px solid #111; background: #eeeeee; width: 180px; height: 180px; }
+</style>
+</head>
+<body>
+<h1>Symphony L48 Test</h1>
+<p>Test page made for this phone. No ads, trackers, external scripts, accounts or downloads.</p>
+
+<h2>1. HTML</h2>
+<p id="htmltest">If this text is visible, basic HTML works.</p>
+
+<h2>2. JavaScript</h2>
+<p id="jsresult">JavaScript has not been tested.</p>
+<button onclick="document.getElementById('jsresult').innerHTML='PASS: JavaScript works';">Test JavaScript</button>
+
+<h2>3. Button input</h2>
+<p id="buttonresult">Press the button below.</p>
+<button onclick="document.getElementById('buttonresult').innerHTML='PASS: button input works';">Press me</button>
+
+<h2>4. Keyboard input</h2>
+<p>Try the phone's number keys 2, 4, 6, 8 or arrow keys if available.</p>
+<p id="keyresult">Waiting for a key...</p>
+
+<h2>5. Tiny Snake test</h2>
+<p>Use 2, 4, 6, 8 or the buttons. If the buttons work, you can test movement even without a keyboard event.</p>
+<p id="score">Score: 0</p>
+<div id="board">SNAKE TEST</div>
+<div>
+<button onclick="moveSnake(0,-1)">UP</button><br>
+<button onclick="moveSnake(-1,0)">LEFT</button>
+<button onclick="moveSnake(1,0)">RIGHT</button><br>
+<button onclick="moveSnake(0,1)">DOWN</button>
+</div>
+<p id="gameinfo">Press a direction button to move the test square.</p>
+
+<script type="text/javascript">
+var x = 2;
+var y = 2;
+var score = 0;
+var board = document.getElementById('board');
+
+function drawSnake() {
+  var row;
+  var col;
+  var out = '';
+  for (row = 0; row < 5; row++) {
+    for (col = 0; col < 5; col++) {
+      if (col == x && row == y) {
+        out += '[O]';
+      } else {
+        out += '[ ]';
+      }
+    }
+    out += '<br>';
+  }
+  board.innerHTML = out;
+  document.getElementById('score').innerHTML = 'Moves: ' + score;
+}
+
+function moveSnake(dx, dy) {
+  x = x + dx;
+  y = y + dy;
+  if (x < 0) { x = 4; }
+  if (x > 4) { x = 0; }
+  if (y < 0) { y = 4; }
+  if (y > 4) { y = 0; }
+  score = score + 1;
+  drawSnake();
+  document.getElementById('gameinfo').innerHTML = 'PASS: JavaScript game movement works.';
+}
+
+document.onkeydown = function(e) {
+  if (!e) { e = window.event; }
+  var k = e.keyCode;
+  document.getElementById('keyresult').innerHTML = 'Key code detected: ' + k;
+  if (k == 38 || k == 50) { moveSnake(0,-1); }
+  if (k == 40 || k == 56) { moveSnake(0,1); }
+  if (k == 37 || k == 52) { moveSnake(-1,0); }
+  if (k == 39 || k == 54) { moveSnake(1,0); }
+};
+drawSnake();
+</script>
+</body>
+</html>
